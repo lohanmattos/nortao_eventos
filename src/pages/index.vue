@@ -1,31 +1,65 @@
 <template>
-  <navbar />
-  <div class="container">
-    <h1>Bem-vindo ao Nortão Eventos</h1>
-    <p>
-      O Nortão Eventos é um sistema de cadastro e gerenciamento de eventos que facilita o processo de criação, visualização e controle de eventos. A plataforma oferece uma interface intuitiva para registrar eventos, gerenciar listas de convidados, atualizar informações e acompanhar os detalhes de cada evento em tempo real. Ideal para organizadores e empresas que buscam eficiência e praticidade na administração de seus eventos.
-    </p>
+  <div>
+    <div class="d-block">
+      <v-carousel>
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover></v-carousel-item>
+
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
+
+        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
+      </v-carousel>
+    </div>
+
+    <div class="d-flex justify-center pa-2">
+      <h1>Eventos</h1>
+    </div>
+
+
+      <div class="d-flex justify-center mb-6 flex-wrap">
+      <v-sheet
+        v-for="n in 8"
+        :key="n"
+        class="ma-2 pa-2"
+      >
+      <v-card
+    max-width="300"
+  >
+    <v-img
+      class="align-end text-white"
+      height="200"
+      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      cover
+    >
+    </v-img>
+
+    <v-card-text>
+      <div>Semana da FACET 2024 - UNEMAT</div>
+    </v-card-text>
+
+    <v-card-subtitle class="pt-4">
+      <div>
+        Quinta-Feira, 19 de setembro
+      </div>
+      <div>
+        Local: UNEMAT - Campus de Sinop
+      </div>
+      <div>Sinop - MT</div>
+    </v-card-subtitle>
+
+    <v-card-actions>
+      <v-btn color="blue" text="Comprar"></v-btn>
+    </v-card-actions>
+  </v-card>
+      </v-sheet>
+    </div>
+
+
   </div>
+
 </template>
 
 <script setup>
 // Aqui você pode adicionar a lógica necessária
 </script>
 
-<style scoped>
-.container {
-  padding: 20px;
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.2em;
-  line-height: 1.5;
-  text-align: justify; /* Justifica o texto */
-
-}
-</style>
+<style scoped></style>
