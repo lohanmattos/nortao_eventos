@@ -5,7 +5,6 @@
                 <strong>Nortão Eventos</strong>
             </div>
             <div>© {{ new Date().getFullYear() }} Nortão Eventos - Todos os direitos reservados. </div>
-
         </div>
         <div>
         </div>
