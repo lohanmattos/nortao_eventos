@@ -1,60 +1,70 @@
 <template>
-  <div>
-    <!-- Carrossel de imagens -->
-    <div class="d-block">
-      <v-carousel>
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" cover></v-carousel-item>
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/hotel.jpg" cover></v-carousel-item>
-        <v-carousel-item src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-carousel-item>
-      </v-carousel>
-    </div>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-card>
 
-    <!-- Título -->
-    <div class="d-flex justify-center pa-2">
-      <h1>Eventos</h1>
-    </div>
-
-    <!-- Cartões de eventos -->
-    <div class="d-flex justify-center mb-6 flex-wrap">
-      <v-sheet
-        v-for="evento in eventos"
-        :key="evento.id"
-        class="ma-2 pa-2"
-      >
-        <v-card max-width="300">
-          <v-img
-            class="align-end text-white"
-            :src="evento.imagem"
-            height="200"
-            cover
-          ></v-img>
-
+          <v-card-title>
+            <h2>{{ evento.nome }}</h2>
+            
+          </v-card-title>
+          <v-card-subtitle>
+            <span>{{ evento.data }}</span>
+          </v-card-subtitle>
           <v-card-text>
-            <div>
-              <RouterLink :to="{ path: 'detalhes-evento/' + evento.id }">{{ evento.nome }}</RouterLink>
-            </div>
+        
+            <v-row>
+              <!-- Descrição do evento -->
+              <v-col cols="12" md="8">
+                <h3>Descrição</h3>
+                <p>{{ evento.descricao }}</p>
+              </v-col>
+              <!-- Local do evento -->
+              <v-col cols="12" md="4">
+                <h3>Local</h3>
+                <p>{{ evento.local }}</p>
+              </v-col>
+            </v-row>
+
+            <!-- Tabela de Convidados -->
+            <v-row>
+              <v-col cols="12">
+                <h3>Convidados</h3>
+                <v-data-table :headers="headers" :items="evento.convidados" class="elevation-1" item-value="nome">
+                  <template v-slot:item.index="{ index }">
+                    <span>{{ index + 1 }}</span>
+                  </template>
+                  <template v-slot:item.acoes="{ index }">
+                    <v-btn class="ma-1" size="x-small" icon @click="removerConvidado(index)">
+                      <v-icon color="red">mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-data-table>
+              </v-col>
+            </v-row>
           </v-card-text>
 
-          <v-card-subtitle class="pt-4">
-            <div>
-              Data: {{ evento.data }}
-            </div>
-            <div>
-              Local: {{ evento.local }}
-            </div>
-          </v-card-subtitle>
-
           <v-card-actions>
-            <v-btn color="blue" text>Comprar</v-btn>
+            <v-btn color="primary" @click="$router.push('/')">Voltar</v-btn>
           </v-card-actions>
         </v-card>
-      </v-sheet>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const $route = useRoute();
+
+// Definindo as colunas (headers) da tabela
+const headers = ref([
+  { title: '#', key: 'index' },
+  { title: 'Nome do Convidado', key: 'nome' },
+  { title: 'Ações', key: 'acoes', sortable: false }
+]);
 
 const eventos = ref([
   {
@@ -129,8 +139,16 @@ const eventos = ref([
   }
 ]);
 
+const evento = ref(eventos.value.find((evento) => evento.id == $route.params.id));
+
+// Função para remover o convidado
+const removerConvidado = (index) => {
+  evento.value.convidados.splice(index, 1);
+};
 </script>
 
 <style scoped>
-/* Estilos personalizados, se necessário */
+h3 {
+  margin-bottom: 8px;
+}
 </style>

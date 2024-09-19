@@ -19,7 +19,7 @@
         type="password"
       ></v-text-field>
 
-      <v-btn class="mt-2" type="submit"  to='/admin-eventos' block>Entrar</v-btn>
+      <v-btn class="mt-2" type="submit"  to='/eventos' block>Entrar</v-btn>
     </v-form>
   </v-sheet>
 </template>

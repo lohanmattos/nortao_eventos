@@ -7,7 +7,7 @@
 // Styles
 import '@mdi/font/css/materialdesignicons.css'
 import 'vuetify/styles'
-import colors, { blue } from 'vuetify/util/colors'
+import colors from 'vuetify/util/colors'
 
 
 // Composables
