@@ -1,7 +1,11 @@
 <template>
+  <div class="pa-8">
+    <p>Olá, bem vindo.</p>
+    <h3>{{ store.user.displayName }}</h3>
+  </div>
   <div>
     <!-- Cabeçalho com o botão -->
-    <div class="d-flex justify-lg-space-between pa-8 pt-10">
+    <div class="d-flex justify-lg-space-between pa-8">
       <h1>Eventos</h1>
       <v-btn class="bg-primary" @click="showDialog = true">Novo Evento</v-btn>
     </div>
@@ -51,7 +55,7 @@
             <!-- Lista de convidados adicionados -->
             <v-list>
               <v-list-item v-for="(guest, index) in newEvent.convidados" :key="index">
-                <v-list-item-content>{{ guest }}</v-list-item-content>
+                {{ guest }}
                 <v-list-item-action>
                   <v-btn icon @click="removeGuest(index)">
                     <v-icon color="red">mdi-delete</v-icon>
@@ -73,6 +77,8 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useUserLoginStore } from '@/stores/userLogin'
+const store = useUserLoginStore()
 
 // Controla o diálogo para adicionar novo evento
 const showDialog = ref(false);

@@ -3,10 +3,9 @@
     <v-row>
       <v-col cols="12">
         <v-card>
-
-          <v-card-title>
+          <v-card-title class="d-flex justify-lg-space-between pa-2">
             <h2>{{ evento.nome }}</h2>
-            
+            <v-btn class="bg-primary" @click="showDialog = true">Editar</v-btn>
           </v-card-title>
           <v-card-subtitle>
             <span>{{ evento.data }}</span>
@@ -45,11 +44,54 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="primary" @click="$router.push('/')">Voltar</v-btn>
+            <v-btn color="primary" @click="$router.push('/eventos')">Voltar</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
+
+         <!-- Modal para adicionar novo evento -->
+    <v-dialog v-model="showDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">Novo Evento</span>
+        </v-card-title>
+
+        <v-card-text>
+          <v-form ref="form">
+            <v-text-field type="date" v-model="newEvent.data" label="Data"></v-text-field>
+            <v-text-field v-model="newEvent.nome" label="Nome do Evento" required></v-text-field>
+            <v-text-field v-model="newEvent.descricao" label="Descrição" required></v-text-field>
+            <v-text-field v-model="newEvent.local" label="Local" required></v-text-field>
+
+            <!-- Campo para adicionar convidados -->
+            <v-text-field
+              v-model="newGuest"
+              label="Adicionar Convidado"
+              append-icon="mdi-plus"
+              @click:append="addGuest"
+            ></v-text-field>
+
+            <!-- Lista de convidados adicionados -->
+            <v-list>
+              <v-list-item v-for="(guest, index) in newEvent.convidados" :key="index">
+                {{ guest }}
+                <v-list-item-action>
+                  <v-btn icon @click="removeGuest(index)">
+                    <v-icon color="red">mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-form>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-btn color="blue darken-1" text @click="closeDialog">Cancelar</v-btn>
+          <v-btn color="blue darken-1" text @click="addNewEvent">Adicionar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
