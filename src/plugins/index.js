@@ -6,9 +6,9 @@
 
 // Plugins
 import vuetify from './vuetify'
+import firebase from './firebase'
 import pinia from '@/stores'
 import router from '@/router'
-import firebase from './firebase'
 
 export function registerPlugins (app) {
   app

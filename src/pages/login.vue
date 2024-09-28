@@ -14,10 +14,7 @@
         label="Digite sua Senha"
         type="password"
       ></v-text-field>
-
-      <v-btn class="mt-2" type="submit"  to='/eventos' block>Entrar</v-btn>
       <v-btn class="mt-2" color="primary" @click="store.login" block>Login com Google</v-btn>
-    
     </v-form>
   </v-sheet>
 </template>

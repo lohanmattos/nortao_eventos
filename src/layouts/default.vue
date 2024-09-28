@@ -3,7 +3,7 @@
     <v-toolbar class="bg-primary">
       <v-toolbar-title>Nortão Eventos</v-toolbar-title>
       <v-spacer></v-spacer> <!-- Adiciona um espaço flexível -->
-      <v-btn text to="/" prepend-icon="mdi-home">Eventos</v-btn>
+      <v-btn :to="store.isLoggedIn ? '/eventos' : '/'" text prepend-icon="mdi-home">Eventos</v-btn>
 
       <div v-if="!store.isLoggedIn">
         <v-btn text to="/login" prepend-icon="mdi-account">Área logada</v-btn>
@@ -25,8 +25,6 @@
 <script setup>
  import { useUserLoginStore } from '@/stores/userLogin'
  const store = useUserLoginStore()
-
-
 </script>
 
 <style scoped>

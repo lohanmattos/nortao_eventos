@@ -8,6 +8,7 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
+import {useUserLoginStore} from '@/stores/userLogin'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,5 +37,18 @@ router.isReady().then(() => {
   localStorage.removeItem('vuetify:dynamic-reload')
 })
 
+//Atribuir quais as rotas a serem protegidas
+
+router.beforeEach((to, from, next)=> {
+
+  const loggedIn = useUserLoginStore().isLoggedIn;
+
+  if(to.path.includes('/eventos') && !loggedIn) {
+    //regras de verificação de autenticacao
+    alert("Rota Admin")
+    next('/login')
+  }
+next()
+});
 
 export default router
