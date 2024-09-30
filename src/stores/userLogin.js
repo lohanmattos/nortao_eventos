@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
 import router from "@/router";
 
 const auth = getAuth();
@@ -37,7 +37,8 @@ export const useUserLoginStore = defineStore('userLogin', {
                 this.accessToken = user.accessToken;
             }
         },
-        login() {
+        // Função de login com Google
+        loginWithGoogle() {
             signInWithPopup(auth, provider)
                 .then((result) => {
                     const user = result.user;
@@ -62,6 +63,60 @@ export const useUserLoginStore = defineStore('userLogin', {
                     console.log(error);
                 });
         },
+        // Função de login com email e senha
+        loginWithEmailAndPassword(email, password) {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((result) => {
+                    const user = result.user;
+                    this.displayName = user.displayName || ''; // Pode ser vazio se o usuário não definir.
+                    this.email = user.email;
+                    this.photoURL = user.photoURL || ''; // Pode ser vazio se o usuário não tiver uma foto.
+                    user.getIdToken().then((token) => {
+                        this.accessToken = token;
+                        alert('Login successful')
+                        // Salva os dados no localStorage
+                        localStorage.setItem('user', JSON.stringify({
+                            displayName: this.displayName,
+                            email: this.email,
+                            photoURL: this.photoURL,
+                            accessToken: this.accessToken
+                        }));
+
+                        // Redireciona para a página de eventos
+                        router.push('/eventos');
+                    });
+                }).catch((error) => {
+                    console.error("Erro durante o login: ", error.message);
+                    // Notificar usuário sobre erro
+                });
+        },
+        // Função de registro com email e senha
+        registerWithEmailAndPassword(email, password) {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((result) => {
+                    const user = result.user;
+                    this.displayName = user.displayName || ''; // Pode ser vazio se o usuário não definir.
+                    this.email = user.email;
+                    this.photoURL = user.photoURL || ''; // Pode ser vazio se o usuário não tiver uma foto.
+                    user.getIdToken().then((token) => {
+                        this.accessToken = token;
+
+                        // Salva os dados no localStorage
+                        localStorage.setItem('user', JSON.stringify({
+                            displayName: this.displayName,
+                            email: this.email,
+                            photoURL: this.photoURL,
+                            accessToken: this.accessToken
+                        }));
+
+                        // Redireciona para a página de eventos
+                        router.push('/eventos');
+                    });
+                }).catch((error) => {
+                    console.error("Erro durante o registro: ", error.message);
+                    // Notificar usuário sobre erro
+                });
+        },
         logout() {
             // Limpa os dados do estado e do localStorage
             this.displayName = '';
@@ -78,9 +133,9 @@ export const useUserLoginStore = defineStore('userLogin', {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     // Usuário está logado
-                    this.displayName = user.displayName;
+                    this.displayName = user.displayName || '';
                     this.email = user.email;
-                    this.photoURL = user.photoURL;
+                    this.photoURL = user.photoURL || '';
 
                     user.getIdToken().then((token) => {
                         this.accessToken = token;
