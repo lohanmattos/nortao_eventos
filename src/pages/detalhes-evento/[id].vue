@@ -29,22 +29,28 @@
             <v-row>
               <v-col cols="12">
                 <h3>Convidados</h3>
-                 <!-- Campo para adicionar novo convidado -->
+                 <!-- Campo para adicionar ou editar convidado -->
                  <v-row>
-              <v-col >
-                <v-text-field v-if="store.isLoggedIn"
-                  label="Adicionar Convidado"
-                  v-model="novoConvidado"
-                  append-icon="mdi-plus"
-                  @click:append="adicionarConvidado"
-                ></v-text-field>
-              </v-col>
-            </v-row>
+                  <v-col>
+                    <v-text-field v-if="store.isLoggedIn"
+                      label="Adicionar/Editar Convidado"
+                      v-model="novoConvidado"
+                      append-icon="mdi-check"
+                      @click:append="salvarConvidado"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
                 <v-data-table :headers="headers" :items="evento.convidados" class="elevation-1" item-value="nome">
                   <template v-slot:item.index="{ index }">
                     <span>{{ index + 1 }}</span>
                   </template>
+                  <template v-slot:item.nome="{ item, index }">
+                    <span>{{ item.nome }}</span>
+                  </template>
                   <template v-slot:item.acoes="{ index }" v-if="store.isLoggedIn">
+                    <v-btn class="ma-1" size="x-small" icon @click="editarConvidado(index)">
+                      <v-icon color="blue">mdi-pencil</v-icon>
+                    </v-btn>
                     <v-btn class="ma-1" size="x-small" icon @click="removerConvidado(index)">
                       <v-icon color="red">mdi-delete</v-icon>
                     </v-btn>
@@ -52,7 +58,7 @@
                 </v-data-table>
               </v-col>
             </v-row>
-                       
+
           </v-card-text>
 
           <v-card-actions>
@@ -86,6 +92,7 @@
     </v-dialog>
   </v-container>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';

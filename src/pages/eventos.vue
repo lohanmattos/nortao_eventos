@@ -53,16 +53,24 @@
             ></v-text-field>
 
             <!-- Lista de convidados adicionados -->
-            <v-list>
-              <v-list-item v-for="(guest, index) in newEvent.convidados" :key="index">
-                {{ guest }}
-                <v-list-item-action>
-                  <v-btn icon @click="removeGuest(index)">
-                    <v-icon color="red">mdi-delete</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
+            <!-- Lista de convidados estilizada com botão de excluir à direita -->
+          <v-list>
+            <v-list-item
+              v-for="(guest, index) in newEvent.convidados"
+              :key="index"
+              class="d-flex justify-space-between"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ guest }}</v-list-item-title>
+              </v-list-item-content>
+
+              <v-list-item-action>
+                <v-btn icon @click="removeGuest(index)">
+                  <v-icon color="red">mdi-delete</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list>
           </v-form>
         </v-card-text>
 
