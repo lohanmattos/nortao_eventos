@@ -45,7 +45,6 @@ router.beforeEach((to, from, next)=> {
 
   if(to.path.includes('/eventos') && !loggedIn) {
     //regras de verificação de autenticacao
-    alert("Rota Admin")
     next('/login')
   }
 next()
