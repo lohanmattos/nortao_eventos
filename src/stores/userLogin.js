@@ -26,6 +26,7 @@ export const useUserLoginStore = defineStore('userLogin', {
         }
     },
     actions: {
+
         // Carrega o estado do localStorage quando a aplicação é inicializada
         loadUserFromLocalStorage() {
             const userData = localStorage.getItem('user');
