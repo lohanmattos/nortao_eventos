@@ -14,123 +14,158 @@
       <h1>Eventos</h1>
     </div>
 
-    <!-- Cartões de eventos -->
-    <div class="d-flex justify-center mb-6 flex-wrap">
-      <v-sheet
-        v-for="evento in eventos"
-        :key="evento.id"
-        class="ma-2 pa-2"
-      >
-        <v-card max-width="300">
-          <v-img
-            class="align-end text-white"
-            :src="evento.imagem"
-            height="200"
-            cover
-          ></v-img>
+    <!-- Cartões de eventos com ícones e avatares -->
+    <v-container>
+      <v-row class="d-flex justify-center">
+        <v-col
+          v-for="evento in eventos"
+          :key="evento.id"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          class="pa-2"
+        >
+          <v-card max-width="350" class="equal-height-card">
+            <!-- Imagem do evento -->
+            <v-img
+              class="align-end text-white"
+              :src="evento.imagem || 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'"
+              height="180"
+              cover
+            ></v-img>
 
-          <v-card-text>
-            <div>
-              <RouterLink :to="{ path: 'detalhes-evento/' + evento.id }">{{ evento.nome }}</RouterLink>
-            </div>
-          </v-card-text>
+            <!-- Título com altura mínima -->
+            <v-card-text>
+              <div class="event-title">
+                <RouterLink :to="{ path: 'detalhes-evento/' + evento.id }">{{ evento.nome }}</RouterLink>
+              </div>
 
-          <v-card-subtitle class="pt-4">
-            <div>
-              Data: {{ evento.data }}
-            </div>
-            <div>
-              Local: {{ evento.local }}
-            </div>
-          </v-card-subtitle>
+              <!-- Data e Local -->
+              <div class="pt-4">
+                <strong>Data:</strong> {{ evento.data }} <br />
+                <strong>Local:</strong> {{ evento.local }}
+              </div>
+            </v-card-text>
 
-          <v-card-actions>
-            <v-btn color="blue" text>Comprar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-sheet>
-    </div>
+            <v-card-actions>
+              <v-btn color="blue" :to="'detalhes-evento/' + evento.id" text>Detalhes</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 
+// Lista de eventos (exemplo)
 const eventos = ref([
+  {
+    id: 1,
+    nome: 'AI & Machine Learning Summit 2024',
+    data: '2024-08-15',
+    descricao: 'Conferência sobre as últimas inovações em inteligência artificial e aprendizado de máquina.',
+    local: 'San Francisco, CA',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'
+  },
+  {
+    id: 2,
+    nome: 'Blockchain Expo 2024',
+    data: '2024-09-05',
+    descricao: 'Discussão sobre as aplicações de blockchain em diferentes indústrias.',
+    local: 'Berlin, Germany',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/hotel.jpg'
+  },
+  {
+    id: 3,
+    nome: 'Cybersecurity Conference 2024',
+    data: '2024-10-12',
+    descricao: 'Fórum sobre segurança cibernética e as novas ameaças à segurança digital.',
+    local: 'New York, NY',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+  },
+  {
+    id: 4,
+    nome: 'Cloud Computing Summit 2024',
+    data: '2024-11-20',
+    descricao: 'Conferência focada nas inovações e estratégias em computação em nuvem.',
+    local: 'Seattle, WA',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+  },
+  {
+    id: 5,
+    nome: 'DevOps World 2024',
+    data: '2024-12-02',
+    descricao: 'Exploração das melhores práticas e ferramentas para DevOps.',
+    local: 'Austin, TX',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'
+  },
   {
     id: 6,
     nome: 'Tech Conference 2024',
-    data: '25 de outubro de 2024',
+    data: '2024-09-12',
     descricao: 'Palestras e workshops sobre as últimas inovações tecnológicas.',
     local: 'São Paulo, SP',
-    acoes: 1,
-    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',  // Imagem de conferência de tecnologia
-    convidados: [
-      { nome: 'Carlos Silva' },
-      { nome: 'Mariana Souza' },
-      { nome: 'João Pereira' }
-    ]
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/hotel.jpg'
   },
   {
     id: 7,
     nome: 'CodeFest',
-    data: '10 de novembro de 2024',
+    data: '2024-09-12',
     descricao: 'Hackathon para desenvolvedores de software e startups.',
     local: 'Rio de Janeiro, RJ',
-    acoes: 1,
-    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',  // Imagem de hackathon
-    convidados: [
-      { nome: 'Ana Lima' },
-      { nome: 'Pedro Costa' },
-      { nome: 'Beatriz Gonçalves' }
-    ]
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
   },
   {
     id: 8,
-    nome: 'AI Summit',
-    data: '5 de dezembro de 2024',
-    descricao: 'Conferência sobre Inteligência Artificial e aprendizado de máquina.',
-    local: 'Belo Horizonte, MG',
-    acoes: 1,
-    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',  // Imagem de IA
-    convidados: [
-      { nome: 'Rafael Moreira' },
-      { nome: 'Julia Ferreira' },
-      { nome: 'Vinicius Oliveira' }
-    ]
+    nome: 'AR/VR World 2024',
+    data: '2024-07-30',
+    descricao: 'Fórum dedicado às inovações em realidade aumentada e realidade virtual.',
+    local: 'Los Angeles, CA',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg'
   },
   {
     id: 9,
-    nome: 'Cloud Computing Expo',
-    data: '20 de janeiro de 2025',
-    descricao: 'Evento focado em soluções de computação em nuvem e infraestrutura.',
-    local: 'Curitiba, PR',
-    acoes: 1,
-    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',  // Imagem de computação em nuvem
-    convidados: [
-      { nome: 'Marcelo Santos' },
-      { nome: 'Fernanda Almeida' },
-      { nome: 'Thiago Mendes' }
-    ]
+    nome: 'Robotics & Automation 2024',
+    data: '2024-11-18',
+    descricao: 'Discussões sobre o futuro da robótica e automação nas indústrias.',
+    local: 'Tokyo, Japan',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/hotel.jpg'
   },
   {
     id: 10,
-    nome: 'Blockchain Forum',
-    data: '15 de fevereiro de 2025',
-    descricao: 'Discussões sobre blockchain e criptomoedas.',
-    local: 'Florianópolis, SC',
-    acoes: 1,
-    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg',  // Imagem de blockchain
-    convidados: [
-      { nome: 'Lucas Rocha' },
-      { nome: 'Carla Martins' },
-      { nome: 'Gabriel Silva' }
-    ]
+    nome: 'Big Data Conference 2024',
+    data: '2024-10-25',
+    descricao: 'Evento focado em análise de dados em grande escala e suas aplicações.',
+    local: 'London, UK',
+    imagem: 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
   }
 ]);
-
 </script>
 
 <style scoped>
-/* Estilos personalizados, se necessário */
+/* Estilos personalizados */
+.equal-height-card {
+  min-height: 400px; /* Define uma altura mínima consistente para os cartões */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-title {
+  min-height: 40px; /* Define uma altura mínima para o título, garantindo consistência */
+  font-weight: bold;
+  overflow: hidden; /* Caso o título seja longo, ele não vai quebrar o layout */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .equal-height-card {
+    min-height: 350px; /* Ajusta a altura mínima para telas menores */
+  }
+}
 </style>
