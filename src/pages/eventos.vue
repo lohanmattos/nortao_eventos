@@ -1,6 +1,6 @@
 <template>
   <div class="pa-2">
-    <p>Olá, bem vindo.</p>
+    <p>Olá, bem vindo de volta !!</p>
     <h3>{{ store.user.displayName }}</h3>
   </div>
   <div>
