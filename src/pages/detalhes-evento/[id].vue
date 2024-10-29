@@ -48,16 +48,17 @@
                 </v-row>
                 <v-data-table :headers="headers" :items="evento.convidados" class="elevation-1" item-value="nome">
                   <template v-slot:item.index="{ index }">
-                    <span>{{ index + 1 }}</span>
+                    
+                    <span>{{ index }}</span>
                   </template>
                   <template v-slot:item.nome="{ item, index }">
                     <span>{{ item.nome }}</span>
                   </template>
-                  <template v-slot:item.acoes="{ index }" v-if="store.isLoggedIn">
+                  <template v-slot:item.acoes="{ index, item }" v-if="store.isLoggedIn">
                     <v-btn class="ma-1" size="x-small" icon @click="editarConvidado(index)">
                       <v-icon color="blue">mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn class="ma-1" size="x-small" icon @click="removerConvidado(index)">
+                    <v-btn class="ma-1" size="x-small" icon @click="removerConvidado(index, item.id)">
                       <v-icon color="red">mdi-delete</v-icon>
                     </v-btn>
                   </template>
@@ -83,13 +84,12 @@
 
         <v-card-text>
           <v-form ref="form">
-            <v-text-field type="date" v-model="evento.data" label="Data"></v-text-field>
+            <v-text-field v-model="evento.data"  label="Data"></v-text-field>
             <v-text-field v-model="evento.nome" label="Nome do Evento" required></v-text-field>
             <v-text-field v-model="evento.descricao" label="Descrição" required></v-text-field>
             <v-text-field v-model="evento.local" label="Local" required></v-text-field>
           </v-form>
         </v-card-text>
-
         <v-card-actions>
           <v-btn color="blue darken-1" text @click="closeDialog">Cancelar</v-btn>
           <v-btn color="blue darken-1" text @click="updateEvent">Salvar</v-btn>
@@ -112,6 +112,7 @@ import { useUserLoginStore } from '@/stores/userLogin';
 const store = useUserLoginStore();
 const $route = useRoute();
 
+
 // Variável reativa para controlar o modal
 const showDialog = ref(false);
 
@@ -128,132 +129,9 @@ const headers = ref([
   ...(store.isLoggedIn ? [{ title: 'Ações', key: 'acoes', sortable: false }] : [])
 ]);
 
-// Lista de eventos (exemplo)
-const eventos = ref([
-  {
-    id: 1,
-    nome: 'AI & Machine Learning Summit 2024',
-    data: '2024-08-15',
-    descricao: 'Conferência sobre as últimas inovações em inteligência artificial e aprendizado de máquina.',
-    local: 'San Francisco, CA',
-    convidados: [
-      { nome: 'John Doe' },
-      { nome: 'Alice Johnson' },
-      { nome: 'Mark Spencer' }
-    ]
-  },
-  {
-    id: 2,
-    nome: 'Blockchain Expo 2024',
-    data: '2024-09-05',
-    descricao: 'Discussão sobre as aplicações de blockchain em diferentes indústrias.',
-    local: 'Berlin, Germany',
-    convidados: [
-      { nome: 'Satoshi Nakamoto' },
-      { nome: 'Vitalik Buterin' },
-      { nome: 'Charlie Lee' }
-    ]
-  },
-  {
-    id: 3,
-    nome: 'Cybersecurity Conference 2024',
-    data: '2024-10-12',
-    descricao: 'Fórum sobre segurança cibernética e as novas ameaças à segurança digital.',
-    local: 'New York, NY',
-    convidados: [
-      { nome: 'Kevin Mitnick' },
-      { nome: 'Eva Chen' },
-      { nome: 'Ladar Levison' }
-    ]
-  },
-  {
-    id: 4,
-    nome: 'Cloud Computing Summit 2024',
-    data: '2024-11-20',
-    descricao: 'Conferência focada nas inovações e estratégias em computação em nuvem.',
-    local: 'Seattle, WA',
-    convidados: [
-      { nome: 'Andy Jassy' },
-      { nome: 'Diane Greene' },
-      { nome: 'Satya Nadella' }
-    ]
-  },
-  {
-    id: 5,
-    nome: 'DevOps World 2024',
-    data: '2024-12-02',
-    descricao: 'Exploração das melhores práticas e ferramentas para DevOps.',
-    local: 'Austin, TX',
-    convidados: [
-      { nome: 'Gene Kim' },
-      { nome: 'Nicole Forsgren' },
-      { nome: 'Jez Humble' }
-    ]
-  },
-  {
-    id: 6,
-    nome: 'Tech Conference 2024',
-    data: '2024-09-12',
-    descricao: 'Palestras e workshops sobre as últimas inovações tecnológicas.',
-    local: 'São Paulo, SP',
-    convidados: [
-      { nome: 'Carlos Silva' },
-      { nome: 'Mariana Souza' },
-      { nome: 'João Pereira' }
-    ]
-  },
-  {
-    id: 7,
-    nome: 'CodeFest',
-    data: '2024-09-12',
-    descricao: 'Hackathon para desenvolvedores de software e startups.',
-    local: 'Rio de Janeiro, RJ',
-    convidados: [
-      { nome: 'Ana Lima' },
-      { nome: 'Pedro Costa' },
-      { nome: 'Beatriz Gonçalves' }
-    ]
-  },
-  {
-    id: 8,
-    nome: 'AR/VR World 2024',
-    data: '2024-07-30',
-    descricao: 'Fórum dedicado às inovações em realidade aumentada e realidade virtual.',
-    local: 'Los Angeles, CA',
-    convidados: [
-      { nome: 'Tim Sweeney' },
-      { nome: 'Palmer Luckey' },
-      { nome: 'Brenda Romero' }
-    ]
-  },
-  {
-    id: 9,
-    nome: 'Robotics & Automation 2024',
-    data: '2024-11-18',
-    descricao: 'Discussões sobre o futuro da robótica e automação nas indústrias.',
-    local: 'Tokyo, Japan',
-    convidados: [
-      { nome: 'Masayoshi Son' },
-      { nome: 'Marc Raibert' },
-      { nome: 'Cynthia Breazeal' }
-    ]
-  },
-  {
-    id: 10,
-    nome: 'Big Data Conference 2024',
-    data: '2024-10-25',
-    descricao: 'Evento focado em análise de dados em grande escala e suas aplicações.',
-    local: 'London, UK',
-    convidados: [
-      { nome: 'Jeffrey Ullman' },
-      { nome: 'Andrew Ng' },
-      { nome: 'Hilary Mason' }
-    ]
-  }
-]);
 
 // Buscando o evento pelo ID da rota
-const evento = ref(eventos.value.find((evento) => evento.id == $route.params.id));
+const evento = ref([]);
 
 // Função para fechar o modal
 const closeDialog = () => {
@@ -261,25 +139,92 @@ const closeDialog = () => {
 };
 
 // Função para atualizar o evento
-const updateEvent = () => {
-  // Lógica de atualização do evento
-  closeDialog();
+const updateEvent = async () => {
+  try {
+    // Defina a URL para o endpoint de atualização do evento
+    const url = `http://localhost:4000/eventos/${evento.value.id}`;
+
+    // Faz a requisição PUT para atualizar o evento
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nome: evento.value.nome,
+        data: evento.value.data,
+        descricao: evento.value.descricao,
+        local: evento.value.local,
+      }),
+    });
+
+    console.log(response);
+
+    // Verifica se a requisição foi bem-sucedida
+    if (response.ok) {
+      console.log("Evento atualizado com sucesso!");
+    } else {
+      console.error(`Erro ao atualizar o evento: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar o evento:', error);
+  } finally {
+    // Fechar o modal após a atualização
+    closeDialog();
+  }
 };
 
-// Função para adicionar ou editar o convidado
-const salvarConvidado = () => {
+
+const salvarConvidado = async () => {
   if (novoConvidado.value.trim() === '') return;
 
-  if (editandoConvidadoIndex.value === -1) {
-    // Adicionar novo convidado
-    evento.value.convidados.push({ nome: novoConvidado.value });
-  } else {
-    // Editar convidado existente
-    evento.value.convidados[editandoConvidadoIndex.value].nome = novoConvidado.value;
-    editandoConvidadoIndex.value = -1; // Resetar o índice de edição
-  }
+  try {
+    if (editandoConvidadoIndex.value === -1) {
+      // Adicionar novo convidado
+      let url = `http://localhost:4000/convidados/${evento.value.id}`;
 
-  novoConvidado.value = ''; // Limpar o campo após adicionar ou editar
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nome: novoConvidado.value }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        evento.value.convidados.push({ id: result.id, nome: novoConvidado.value });
+        console.log('Convidado adicionado com sucesso!');
+      } else {
+        console.error(`Erro ao adicionar o convidado: ${response.statusText}`);
+      }
+    } else {
+      // Editar convidado existente
+      const convidadoId = evento.value.convidados[editandoConvidadoIndex.value].id;
+      let url = `http://localhost:4000/convidados/${convidadoId}`;
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nome: novoConvidado.value }),
+      });
+
+      if (response.ok) {
+        evento.value.convidados[editandoConvidadoIndex.value].nome = novoConvidado.value;
+        console.log('Convidado editado com sucesso!');
+      } else {
+        console.error(`Erro ao editar o convidado: ${response.statusText}`);
+      }
+    }
+
+    // Limpar os valores e resetar o estado de edição
+    novoConvidado.value = '';
+    editandoConvidadoIndex.value = -1;
+  } catch (error) {
+    console.error('Erro ao salvar o convidado:', error);
+  }
 };
 
 // Função para iniciar a edição do convidado
@@ -288,10 +233,61 @@ const editarConvidado = (index) => {
   editandoConvidadoIndex.value = index; // Guardar o índice do convidado sendo editado
 };
 
-// Função para remover o convidado
-const removerConvidado = (index) => {
-  evento.value.convidados.splice(index, 1);
+
+const removerConvidado = async (index, convidadoId) => {
+  try {
+    // Exibe o estado de carregamento, se necessário
+    loading.value = true;
+
+    // URL da API para remover o convidado
+    let url = `http://localhost:4000/convidados/${convidadoId}`;
+
+    // Faz a requisição DELETE ao backend
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+
+    // Verifica se a requisição foi bem-sucedida
+    if (response.ok) {
+      // Remove o convidado da lista local após a confirmação do backend
+      evento.value.convidados.splice(index, 1);
+      console.log(`Convidado com ID ${convidadoId} removido com sucesso.`);
+    } else {
+      console.error(`Erro ao remover o convidado: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Erro ao remover o convidado:', error);
+  } finally {
+    // Oculta o estado de carregamento
+    loading.value = false;
+  }
 };
+
+
+const loading = ref(false);
+const loadItems = async () => {
+
+  loading.value = true;
+  const eventId = $route.params.id;
+
+  let url = `http://localhost:4000/eventos/${eventId}`;
+
+  const response = await fetch(url);
+  const result = await response.json();
+  evento.value = result;
+  
+  evento.value.convidados = evento.value.convidados.filter(c => !!c.id)
+
+  loading.value = false;
+
+}
+// Carregar os dados ao montar o componente
+
+
+onMounted(() => {
+  loadItems();
+});
+
 </script>
 
 

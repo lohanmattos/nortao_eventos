@@ -4,27 +4,22 @@
     <h3>{{ store.user.displayName }}</h3>
   </div>
   <div>
- <!-- Título e Botão Novo Evento -->
- <v-row class="d-flex align-center justify-space-between pa-2">
-    <!-- Coluna para o Título -->
-    <v-col cols="auto">
-      <h1>Eventos</h1>
-    </v-col>
+    <!-- Título e Botão Novo Evento -->
+    <v-row class="d-flex align-center justify-space-between pa-2">
+      <!-- Coluna para o Título -->
+      <v-col cols="auto">
+        <h1>Eventos</h1>
+      </v-col>
 
-    <!-- Coluna para o Botão -->
-    <v-col cols="auto">
-      <v-btn class="bg-primary" @click="showDialog = true">Novo Evento</v-btn>
-    </v-col>
-  </v-row>
+      <!-- Coluna para o Botão -->
+      <v-col cols="auto">
+        <v-btn class="bg-primary" @click="showDialog = true">Novo Evento</v-btn>
+      </v-col>
+    </v-row>
 
     <!-- Tabela de eventos -->
     <div class="d-flex pa-4">
-      <v-data-table
-        :headers="headers"
-        :items="eventos"
-        class="elevation-1"
-        item-value="id"
-      >
+      <v-data-table :headers="headers" :items="eventos" class="elevation-1" item-value="id">
         <template v-slot:item.acoes="{ item }">
           <v-btn :to="{ path: 'detalhes-evento/' + item.id }" icon class="ma-1" size="x-small">
             <v-icon color="blue">mdi-pencil</v-icon>
@@ -52,32 +47,25 @@
             <v-text-field v-model="newEvent.local" label="Local" required></v-text-field>
 
             <!-- Campo para adicionar convidados -->
-            <v-text-field
-              v-model="newGuest"
-              label="Adicionar Convidado"
-              append-icon="mdi-plus"
-              @click:append="addGuest"
-            ></v-text-field>
+            <v-text-field v-model="newGuest" label="Adicionar Convidado" append-icon="mdi-plus"
+              @click:append="addGuest"></v-text-field>
 
             <!-- Lista de convidados adicionados -->
             <!-- Lista de convidados estilizada com botão de excluir à direita -->
-          <v-list>
-            <v-list-item
-              v-for="(guest, index) in newEvent.convidados"
-              :key="index"
-              class="d-flex justify-space-between"
-            >
-              <v-list-item-content>
-                <v-list-item-title>{{ guest }}</v-list-item-title>
-              </v-list-item-content>
+            <v-list>
+              <v-list-item v-for="(guest, index) in newEvent.convidados" :key="index"
+                class="d-flex justify-space-between">
+                <v-list-item-content>
+                  <v-list-item-title>{{ guest }}</v-list-item-title>
+                </v-list-item-content>
 
-              <v-list-item-action>
-                <v-btn icon @click="removeGuest(index)">
-                  <v-icon color="red">mdi-delete</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
-          </v-list>
+                <v-list-item-action>
+                  <v-btn icon @click="removeGuest(index)">
+                    <v-icon color="red">mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
           </v-form>
         </v-card-text>
 
@@ -108,128 +96,7 @@ const headers = ref([
 ]);
 
 // Lista de eventos (exemplo)
-const eventos = ref([
-  {
-    id: 1,
-    nome: 'AI & Machine Learning Summit 2024',
-    data: '2024-08-15',
-    descricao: 'Conferência sobre as últimas inovações em inteligência artificial e aprendizado de máquina.',
-    local: 'San Francisco, CA',
-    convidados: [
-      { nome: 'John Doe' },
-      { nome: 'Alice Johnson' },
-      { nome: 'Mark Spencer' }
-    ]
-  },
-  {
-    id: 2,
-    nome: 'Blockchain Expo 2024',
-    data: '2024-09-05',
-    descricao: 'Discussão sobre as aplicações de blockchain em diferentes indústrias.',
-    local: 'Berlin, Germany',
-    convidados: [
-      { nome: 'Satoshi Nakamoto' },
-      { nome: 'Vitalik Buterin' },
-      { nome: 'Charlie Lee' }
-    ]
-  },
-  {
-    id: 3,
-    nome: 'Cybersecurity Conference 2024',
-    data: '2024-10-12',
-    descricao: 'Fórum sobre segurança cibernética e as novas ameaças à segurança digital.',
-    local: 'New York, NY',
-    convidados: [
-      { nome: 'Kevin Mitnick' },
-      { nome: 'Eva Chen' },
-      { nome: 'Ladar Levison' }
-    ]
-  },
-  {
-    id: 4,
-    nome: 'Cloud Computing Summit 2024',
-    data: '2024-11-20',
-    descricao: 'Conferência focada nas inovações e estratégias em computação em nuvem.',
-    local: 'Seattle, WA',
-    convidados: [
-      { nome: 'Andy Jassy' },
-      { nome: 'Diane Greene' },
-      { nome: 'Satya Nadella' }
-    ]
-  },
-  {
-    id: 5,
-    nome: 'DevOps World 2024',
-    data: '2024-12-02',
-    descricao: 'Exploração das melhores práticas e ferramentas para DevOps.',
-    local: 'Austin, TX',
-    convidados: [
-      { nome: 'Gene Kim' },
-      { nome: 'Nicole Forsgren' },
-      { nome: 'Jez Humble' }
-    ]
-  },
-  {
-    id: 6,
-    nome: 'Tech Conference 2024',
-    data: '2024-09-12',
-    descricao: 'Palestras e workshops sobre as últimas inovações tecnológicas.',
-    local: 'São Paulo, SP',
-    convidados: [
-      { nome: 'Carlos Silva' },
-      { nome: 'Mariana Souza' },
-      { nome: 'João Pereira' }
-    ]
-  },
-  {
-    id: 7,
-    nome: 'CodeFest',
-    data: '2024-09-12',
-    descricao: 'Hackathon para desenvolvedores de software e startups.',
-    local: 'Rio de Janeiro, RJ',
-    convidados: [
-      { nome: 'Ana Lima' },
-      { nome: 'Pedro Costa' },
-      { nome: 'Beatriz Gonçalves' }
-    ]
-  },
-  {
-    id: 8,
-    nome: 'AR/VR World 2024',
-    data: '2024-07-30',
-    descricao: 'Fórum dedicado às inovações em realidade aumentada e realidade virtual.',
-    local: 'Los Angeles, CA',
-    convidados: [
-      { nome: 'Tim Sweeney' },
-      { nome: 'Palmer Luckey' },
-      { nome: 'Brenda Romero' }
-    ]
-  },
-  {
-    id: 9,
-    nome: 'Robotics & Automation 2024',
-    data: '2024-11-18',
-    descricao: 'Discussões sobre o futuro da robótica e automação nas indústrias.',
-    local: 'Tokyo, Japan',
-    convidados: [
-      { nome: 'Masayoshi Son' },
-      { nome: 'Marc Raibert' },
-      { nome: 'Cynthia Breazeal' }
-    ]
-  },
-  {
-    id: 10,
-    nome: 'Big Data Conference 2024',
-    data: '2024-10-25',
-    descricao: 'Evento focado em análise de dados em grande escala e suas aplicações.',
-    local: 'London, UK',
-    convidados: [
-      { nome: 'Jeffrey Ullman' },
-      { nome: 'Andrew Ng' },
-      { nome: 'Hilary Mason' }
-    ]
-  }
-]);
+const eventos = ref([]);
 
 
 // Novo evento (vinculado ao formulário)
@@ -249,28 +116,88 @@ const closeDialog = () => {
   resetNewEvent();
 };
 
-// Função para adicionar um novo evento à lista
-const addNewEvent = () => {
-  const newId = eventos.value.length + 1; // Gerar um id para o novo evento
-  eventos.value.push({
-    id: newId,
-    nome: newEvent.value.nome,
-    data: newEvent.value.data,
-    descricao: newEvent.value.descricao,
-    local: newEvent.value.local,
-    acoes: 1,
-    convidados: newEvent.value.convidados
-  });
-  closeDialog();
-};
+const addNewEvent = async () => {
+  try {
+    // Exibe um indicador de carregamento (opcional)
+    loading.value = true;
 
-// Função para deletar um evento
-const deleteEvent = (item) => {
-  const index = eventos.value.indexOf(item);
-  if (index !== -1) {
-    eventos.value.splice(index, 1); // Remove o evento da lista
+    // URL do endpoint para criar o evento
+    let url = 'http://localhost:4000/eventos';
+
+    // Faz a requisição POST para criar o evento no backend
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nome: newEvent.value.nome,
+        data: newEvent.value.data,
+        descricao: newEvent.value.descricao,
+        local: newEvent.value.local,
+        convidados: newEvent.value.convidados
+      })
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+
+      // Adiciona o novo evento à lista local usando o ID gerado pelo backend
+      eventos.value.push({
+        id: result.id, // Assumindo que o ID do evento é retornado pelo backend
+        nome: newEvent.value.nome,
+        data: newEvent.value.data,
+        descricao: newEvent.value.descricao,
+        local: newEvent.value.local,
+        acoes: 1,
+        convidados: newEvent.value.convidados
+      });
+
+      console.log('Evento criado com sucesso no banco de dados.');
+    } else {
+      console.error(`Erro ao criar o evento: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Erro ao criar o evento:', error);
+  } finally {
+    // Oculta o indicador de carregamento e fecha o diálogo
+    loading.value = false;
+    closeDialog();
   }
 };
+
+
+const deleteEvent = async (item) => {
+  try {
+    // Exibe um indicador de carregamento (opcional)
+    loading.value = true;
+
+    // Define a URL do endpoint para deletar o evento com o ID correspondente
+    let url = `http://localhost:4000/eventos/${item.id}`;
+
+    // Faz a requisição DELETE ao servidor
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      // Se a remoção for bem-sucedida, remove o evento localmente
+      const index = eventos.value.indexOf(item);
+      if (index !== -1) {
+        eventos.value.splice(index, 1); // Remove o evento da lista local
+        console.log(`Evento com ID ${item.id} removido com sucesso.`);
+      }
+    } else {
+      console.error(`Erro ao remover o evento: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Erro ao remover o evento:', error);
+  } finally {
+    // Oculta o indicador de carregamento
+    loading.value = false;
+  }
+};
+
 
 // Função para resetar os campos do novo evento
 const resetNewEvent = () => {
@@ -293,6 +220,27 @@ const addGuest = () => {
 const removeGuest = (index) => {
   newEvent.value.convidados.splice(index, 1);
 };
+
+const loading = ref(false);
+const loadItems = async () => {
+
+  loading.value = true;
+  let url = 'http://localhost:4000/eventos';
+
+  const response = await fetch(url);
+  const result = await response.json();
+  eventos.value = result;
+  console.log(eventos.value[0].local);
+
+  loading.value = false;
+
+}
+// Carregar os dados ao montar o componente
+
+onMounted(() => {
+  loadItems();
+});
+
 </script>
 
 <style scoped>
